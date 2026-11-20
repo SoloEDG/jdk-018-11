@@ -1,4 +1,5 @@
 import type { StudioDocument } from "./document";
+import { defaultProfile } from "../features/terminal/lib/profiles";
 export function createDocument(): StudioDocument {
   return {
     asset: null,
@@ -14,6 +15,17 @@ export function createDocument(): StudioDocument {
       background: "#101216",
     },
     grid: null,
+    terminal: {
+      target: defaultProfile.id,
+      columns: defaultProfile.columns,
+      rows: defaultProfile.rows,
+      color: defaultProfile.color,
+      widthRule: defaultProfile.widthRule,
+      mode: "fit",
+      windowX: 0,
+      windowY: 0,
+    },
+    terminalLayouts: null,
     revision: 0,
   };
 }

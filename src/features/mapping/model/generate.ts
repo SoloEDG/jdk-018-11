@@ -3,14 +3,30 @@ import { glyphs } from "../lib/charsets";
 import { gridSize } from "../lib/gridSize";
 import { sample } from "../lib/sample";
 import { tone, luminance } from "../lib/tone";
-export function generate(doc: StudioDocument): Grid | null {
+
+export interface SizeOverride {
+  columns: number;
+  rows: number;
+}
+
+/**
+ * Map the crop to characters. An optional size override lets the terminal
+ * publisher resample the same source at its own density without disturbing the
+ * studio's main preview grid.
+ */
+export function generate(
+  doc: StudioDocument,
+  sizeOverride?: SizeOverride,
+): Grid | null {
   if (!doc.asset) return null;
   const s = doc.settings;
-  const size = gridSize(
-    doc.asset.width * doc.crop.width,
-    doc.asset.height * doc.crop.height,
-    s.columns,
-  );
+  const size =
+    sizeOverride ??
+    gridSize(
+      doc.asset.width * doc.crop.width,
+      doc.asset.height * doc.crop.height,
+      s.columns,
+    );
   const pixels = sample(
     doc.asset,
     doc.crop,
